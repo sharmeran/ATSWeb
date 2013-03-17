@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{39CCEA91-9702-4119-A6E9-7454C3CD9D66}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ATSDomain</RootNamespace>
+    <AssemblyName>ATSDomain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Oracle.DataAccess, Version=10.2.0.100, Culture=neutral, PublicKeyToken=89b483f429c47342">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\oracle\product\10.2.0\client_1\BIN\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseClasses\BusinessDomainBase.cs" />
+    <Compile Include="BaseClasses\NoneDBDomainBase.cs" />
+    <Compile Include="Domains\DateConvert\DateConvertor.cs" />
+    <Compile Include="Domains\Devices\DeviceCategoryDomain.cs" />
+    <Compile Include="Domains\Devices\DeviceDomain.cs" />
+    <Compile Include="Domains\Devices\ServerDomain.cs" />
+    <Compile Include="Domains\Employee\CategoryDomain.cs" />
+    <Compile Include="Domains\Employee\CompanyDomain.cs" />
+    <Compile Include="Domains\Employee\DepartmentDomain.cs" />
+    <Compile Include="Domains\Employee\EmployeesDomain.cs" />
+    <Compile Include="Domains\Employee\QualificationsDomain.cs" />
+    <Compile Include="Domains\Employee\RankDomain.cs" />
+    <Compile Include="Domains\Employee\SpecialistDomain.cs" />
+    <Compile Include="Domains\Employee\TitleDomain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ATSCommon\ATSCommon.csproj">
+      <Project>{a64113f3-7c7e-4151-8f0f-a46c62cd4a8d}</Project>
+      <Name>ATSCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATSDataAccess\ATSDataAccess.csproj">
+      <Project>{9becfad0-6669-4f23-8e20-e37513b79959}</Project>
+      <Name>ATSDataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domains\Attendance\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

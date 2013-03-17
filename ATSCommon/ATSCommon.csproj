@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A64113F3-7C7E-4151-8F0F-A46C62CD4A8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ATSCommon</RootNamespace>
+    <AssemblyName>ATSCommon</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft Enterprise Library 5.0\Bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft Enterprise Library 5.0\Bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft Enterprise Library 5.0\Bin\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionState.cs" />
+    <Compile Include="BaseClasses\BaseClass.cs" />
+    <Compile Include="Constants\Attendance\AttendanceLogConstants.cs" />
+    <Compile Include="Constants\Attendance\AttendanceRecordConstants.cs" />
+    <Compile Include="Constants\Devices\DeviceCategoryConstants.cs" />
+    <Compile Include="Constants\Devices\DeviceConstants.cs" />
+    <Compile Include="Constants\Devices\ServerConstants.cs" />
+    <Compile Include="Constants\Employee\CategoryConstants.cs" />
+    <Compile Include="Constants\Employee\CompanyConstants.cs" />
+    <Compile Include="Constants\Employee\DepartmentConstants.cs" />
+    <Compile Include="Constants\Employee\EmployeesConstants.cs" />
+    <Compile Include="Constants\Employee\NationalityConstants.cs" />
+    <Compile Include="Constants\Employee\QualificationsConstants.cs" />
+    <Compile Include="Constants\Employee\RankConstants.cs" />
+    <Compile Include="Constants\Employee\SpecialistConstants.cs" />
+    <Compile Include="Constants\Employee\TitleConstants.cs" />
+    <Compile Include="Constants\HandPunch\LogDetailsConstants.cs" />
+    <Compile Include="Constants\HandPunch\LogMainConstants.cs" />
+    <Compile Include="Constants\Shifts\ShiftConstants.cs" />
+    <Compile Include="Entites\Attendance\AttendanceLog.cs" />
+    <Compile Include="Entites\Attendance\AttendanceRecord.cs" />
+    <Compile Include="Entites\DateConvertor\Cal.cs" />
+    <Compile Include="Entites\DateConvertor\Date.cs" />
+    <Compile Include="Entites\DateConvertor\HejriCommonDate.cs" />
+    <Compile Include="Entites\DateConvertor\Month.cs" />
+    <Compile Include="Entites\DateConvertor\Year.cs" />
+    <Compile Include="Entites\Devices\Device.cs" />
+    <Compile Include="Entites\Devices\DeviceCategory.cs" />
+    <Compile Include="Entites\Devices\Server.cs" />
+    <Compile Include="Entites\Employee\Category.cs" />
+    <Compile Include="Entites\Employee\Company.cs" />
+    <Compile Include="Entites\Employee\Department.cs" />
+    <Compile Include="Entites\Employee\Employees.cs" />
+    <Compile Include="Entites\Employee\Nationality.cs" />
+    <Compile Include="Entites\Employee\Qualifications.cs" />
+    <Compile Include="Entites\Employee\Rank.cs" />
+    <Compile Include="Entites\Employee\Specialist.cs" />
+    <Compile Include="Entites\Employee\Title.cs" />
+    <Compile Include="Entites\HandPunch\LogDetails.cs" />
+    <Compile Include="Entites\HandPunch\LogMain.cs" />
+    <Compile Include="Entites\Shifts\Shift.cs" />
+    <Compile Include="Enums\ActionStatusEnum.cs" />
+    <Compile Include="Enums\LanguagesEnum.cs" />
+    <Compile Include="Enums\LogLevelEnum.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\LoggingUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

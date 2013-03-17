@@ -1,0 +1,92 @@
+﻿@font-face
+{
+    font-family: HamzahMateen;
+    src: url('Fonts/HamzahMateen.eot');
+
+}
+
+body
+{
+    font-family:HamzahMateen;
+    /*background-image: url('Icons/taple.jpg');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-color: #1b2e22;
+    text-align:center;*/
+}
+
+
+.grid{
+	/*width: 100%;*/
+    border-collapse: collapse;
+    direction: rtl;
+    font-size:10pt;
+
+}
+
+.grid th{	
+	font-weight: bold;
+	text-align: center;
+    color: #cbfcff;
+     border-bottom: 1px solid #C0C0C0;
+    border-right: 1px solid #C0C0C0;         
+}
+
+
+
+.grid td a{
+  color: #0f7187;  
+}
+
+.grid td a:visited{
+  color: #1d1d1f;
+}
+
+.grid td a:hover{
+  color: #efb314;
+  cursor:pointer;
+}
+
+.centerBody_form{
+	width:100%;
+	border: 1px solid #CCCCCC;
+	text-align: right;
+	border-collapse:collapse;
+	background-color: White;
+    padding: 3px;
+}
+
+.centerBody_form th{	
+  font-weight: bold;
+  color: Black;
+}
+
+.rowOdd{
+	background-color: white;
+}
+
+.rowEven{
+	background-color: #f1f8fe;
+}
+.rich-table-subheader {
+    background-color: #2fa9b1;
+}
+
+.grid td
+{
+    border-bottom: 1px solid #C0C0C0;
+    border-right: 1px solid #C0C0C0;
+    color: #000000;       
+    padding: 4px;
+
+}
+
+.TableDiv
+{
+    height: 200px; 
+    width: 1165px; 
+    float:right; 
+    margin-right:100px; 
+    overflow:scroll; 
+    overflow-x:hidden;
+}
