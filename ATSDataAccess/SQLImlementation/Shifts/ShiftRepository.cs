@@ -104,7 +104,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
                 OracleParameter deptCode = new OracleParameter();
                 deptCode.Direction = ParameterDirection.Input;
                 deptCode.Value = entity.DeptCode;
-                deptCode.OracleDbType = OracleDbType.Int32;
+                deptCode.OracleDbType = OracleDbType.Long;
                 com.Parameters.Add(deptCode);
 
                 OracleParameter dayID = new OracleParameter();
@@ -115,14 +115,14 @@ namespace ATSDataAccess.SQLImlementation.Shifts
 
                 OracleParameter isFormalVacations = new OracleParameter();
                 isFormalVacations.Direction = ParameterDirection.Input;
-                isFormalVacations.Value = entity.IsFormalVacations;
+                isFormalVacations.Value =Convert.ToInt32( entity.IsFormalVacations);
                 isFormalVacations.OracleDbType = OracleDbType.Int32;
                 com.Parameters.Add(isFormalVacations);
 
 
                 OracleParameter isNormalShift = new OracleParameter();
                 isNormalShift.Direction = ParameterDirection.Input;
-                isNormalShift.Value = entity.IsNormalShift;
+                isNormalShift.Value =Convert.ToInt32( entity.IsNormalShift);
                 isNormalShift.OracleDbType = OracleDbType.Int32;
                 com.Parameters.Add(isNormalShift);
 
@@ -213,7 +213,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
                 OracleParameter deptCode = new OracleParameter();
                 deptCode.Direction = ParameterDirection.Input;
                 deptCode.Value = entity.DeptCode;
-                deptCode.OracleDbType = OracleDbType.Int32;
+                deptCode.OracleDbType = OracleDbType.Long;
                 com.Parameters.Add(deptCode);
 
                 OracleParameter dayID = new OracleParameter();
@@ -224,14 +224,14 @@ namespace ATSDataAccess.SQLImlementation.Shifts
 
                 OracleParameter isFormalVacations = new OracleParameter();
                 isFormalVacations.Direction = ParameterDirection.Input;
-                isFormalVacations.Value = entity.IsFormalVacations;
+                isFormalVacations.Value =Convert.ToInt32(entity.IsFormalVacations);
                 isFormalVacations.OracleDbType = OracleDbType.Int32;
                 com.Parameters.Add(isFormalVacations);
 
 
                 OracleParameter isNormalShift = new OracleParameter();
                 isNormalShift.Direction = ParameterDirection.Input;
-                isNormalShift.Value = entity.IsNormalShift;
+                isNormalShift.Value =Convert.ToInt32(entity.IsNormalShift);
                 isNormalShift.OracleDbType = OracleDbType.Int32;
                 com.Parameters.Add(isNormalShift);
 
@@ -309,7 +309,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
             return shiftList;
         }
 
-        public List<Shift> FindByShiftCode(string deptCode, ATSCommon.ActionState actionState)
+        public List<Shift> FindByDeptCode(string deptCode, ATSCommon.ActionState actionState)
         {
             OracleConnection con = null;
             OracleCommand com = null;
@@ -318,7 +318,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(ShiftRepositoryConstants.FindAll, con);
+                com = new OracleCommand(ShiftRepositoryConstants.FindByDeptCode, con);
                 con.Open();
                 com.CommandType = System.Data.CommandType.StoredProcedure;
                 OracleParameter refCursorParameter = new OracleParameter();
@@ -327,7 +327,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
                 com.Parameters.Add(refCursorParameter);
 
                 OracleParameter deptCodeParameter = new OracleParameter();
-                deptCodeParameter.OracleDbType = OracleDbType.Int32;
+                deptCodeParameter.OracleDbType = OracleDbType.Long;
                 deptCodeParameter.Direction = ParameterDirection.Input;
                 deptCodeParameter.Value = deptCode;
                 com.Parameters.Add(deptCodeParameter);
@@ -367,7 +367,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(ShiftRepositoryConstants.FindAll, con);
+                com = new OracleCommand(ShiftRepositoryConstants.FindByUserID, con);
                 con.Open();
                 com.CommandType = System.Data.CommandType.StoredProcedure;
                 OracleParameter refCursorParameter = new OracleParameter();
@@ -416,7 +416,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(ShiftRepositoryConstants.FindAll, con);
+                com = new OracleCommand(ShiftRepositoryConstants.FindByUserIDAndDate, con);
                 con.Open();
                 com.CommandType = System.Data.CommandType.StoredProcedure;
                 OracleParameter refCursorParameter = new OracleParameter();
@@ -471,7 +471,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(ShiftRepositoryConstants.FindAll, con);
+                com = new OracleCommand(ShiftRepositoryConstants.FindDefaultByUserID, con);
                 con.Open();
                 com.CommandType = System.Data.CommandType.StoredProcedure;
                 OracleParameter refCursorParameter = new OracleParameter();

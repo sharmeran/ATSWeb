@@ -47,6 +47,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ATSCommon\ATSCommon.csproj">
+      <Project>{a64113f3-7c7e-4151-8f0f-a46c62cd4a8d}</Project>
+      <Name>ATSCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATSDataAccess\ATSDataAccess.csproj">
+      <Project>{9becfad0-6669-4f23-8e20-e37513b79959}</Project>
+      <Name>ATSDataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
