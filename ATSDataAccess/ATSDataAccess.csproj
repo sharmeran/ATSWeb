@@ -84,6 +84,7 @@
     <Compile Include="SQLImlementation\Employee\TitleRepository.cs" />
     <Compile Include="SQLImlementation\HandPunch\LogDetailRepository.cs" />
     <Compile Include="SQLImlementation\HandPunch\LogMainRepository.cs" />
+    <Compile Include="SQLImlementation\Shifts\ShiftRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ATSCommon\ATSCommon.csproj">
