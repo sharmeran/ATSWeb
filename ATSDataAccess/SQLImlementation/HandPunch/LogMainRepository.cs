@@ -100,7 +100,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
                 com.Parameters.Add(idParameter);
 
                 com.ExecuteNonQuery();
-                entity.ID = Convert.ToInt32(com.Parameters[0].Value);
+                entity.ID = Convert.ToInt32(com.Parameters[10].Value);
                 actionState.SetSuccess();
 
             }
@@ -125,7 +125,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(LogMainRepositoryConstants.Insert, con);
+                com = new OracleCommand(LogMainRepositoryConstants.Update, con);
                 con.Open();
 
                 com.CommandType = CommandType.StoredProcedure;
@@ -279,7 +279,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             return logMain;
         }
 
-        public  List<LogMain> FindByDateAndUserID(LogMain entity, ATSCommon.ActionState actionState)
+        public  List<LogMain> FindByDateAndUserID(DateTime date, int userID, ATSCommon.ActionState actionState)
         {
             OracleConnection con = null;
             OracleCommand com = null;
@@ -299,13 +299,13 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
                 OracleParameter userIDParameter = new OracleParameter();
                 userIDParameter.OracleDbType = OracleDbType.Int32;
                 userIDParameter.Direction = ParameterDirection.Input; ;
-                userIDParameter.Value = entity.UserID;
+                userIDParameter.Value =userID;
                 com.Parameters.Add(userIDParameter);
 
                 OracleParameter attendanceDateParameter = new OracleParameter();
                 attendanceDateParameter.OracleDbType = OracleDbType.Date;
                 attendanceDateParameter.Direction = ParameterDirection.Input; ;
-                attendanceDateParameter.Value = entity.AttendanceDate;
+                attendanceDateParameter.Value = date;
                 com.Parameters.Add(attendanceDateParameter);
 
 
@@ -344,7 +344,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(LogMainRepositoryConstants.FindByUserIDAndDate, con);
+                com = new OracleCommand(LogMainRepositoryConstants.FindByDateAndDeptCode, con);
                 con.Open();
                 com.CommandType = System.Data.CommandType.StoredProcedure;
                 OracleParameter refCursorParameter = new OracleParameter();
@@ -353,7 +353,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
                 com.Parameters.Add(refCursorParameter);
 
                 OracleParameter deptCodeParameter = new OracleParameter();
-                deptCodeParameter.OracleDbType = OracleDbType.Int32;
+                deptCodeParameter.OracleDbType = OracleDbType.Long;
                 deptCodeParameter.Direction = ParameterDirection.Input; ;
                 deptCodeParameter.Value = deptCode;
                 com.Parameters.Add(deptCodeParameter);

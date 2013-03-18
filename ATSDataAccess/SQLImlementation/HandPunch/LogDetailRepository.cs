@@ -92,7 +92,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             throw new NotImplementedException();
         }
 
-        public List<LogDetails> FindByDate(LogDetails entity, ATSCommon.ActionState actionState)
+        public List<LogDetails> FindByDate(DateTime entity, ATSCommon.ActionState actionState)
         {
             OracleConnection con = null;
             OracleCommand com = null;
@@ -112,7 +112,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
                 OracleParameter operationDateParameter = new OracleParameter();
                 operationDateParameter.OracleDbType = OracleDbType.Date;
                 operationDateParameter.Direction = ParameterDirection.Input;
-                operationDateParameter.Value = entity.OperationDate;
+                operationDateParameter.Value = entity;
                 com.Parameters.Add(operationDateParameter);
 
                 using (Oracle.DataAccess.Client.OracleDataReader reader = ((Oracle.DataAccess.Client.OracleDataReader)(com.ExecuteReader())))
@@ -248,7 +248,7 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(LogDetailRepositoryConstants.FindByUserID, con);
+                com = new OracleCommand(LogDetailRepositoryConstants.FindByUserIDAndDate, con);
                 con.Open();
                 com.CommandType = System.Data.CommandType.StoredProcedure;
                 OracleParameter refCursorParameter = new OracleParameter();

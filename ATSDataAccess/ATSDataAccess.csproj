@@ -68,7 +68,13 @@
     <Compile Include="Constants\Employee\TitleRepositoryConstants.cs" />
     <Compile Include="Constants\HandPunch\LogDetailRepositoryConstants.cs" />
     <Compile Include="Constants\HandPunch\LogMainRepositoryConstants.cs" />
+    <Compile Include="Constants\Logs\DeviceLogRepositoryConstants.cs" />
+    <Compile Include="Constants\Logs\GeneralLogRepositoryConstants.cs" />
+    <Compile Include="Constants\Logs\ServicesLogRepositoryConstants.cs" />
     <Compile Include="Constants\Shifts\ShiftRepositoryConstants.cs" />
+    <Compile Include="Constants\UserLogs\CheatUsersRepositoryConstants.cs" />
+    <Compile Include="Constants\UserLogs\LostUsersLogRepositoryConstants.cs" />
+    <Compile Include="Constants\UserLogs\UserLogRepositoryConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLImlementation\Devices\DeviceCategoryRepository.cs" />
     <Compile Include="SQLImlementation\Devices\DeviceRepository.cs" />
@@ -84,7 +90,13 @@
     <Compile Include="SQLImlementation\Employee\TitleRepository.cs" />
     <Compile Include="SQLImlementation\HandPunch\LogDetailRepository.cs" />
     <Compile Include="SQLImlementation\HandPunch\LogMainRepository.cs" />
+    <Compile Include="SQLImlementation\Logs\DeviceLogRepository.cs" />
+    <Compile Include="SQLImlementation\Logs\GeneralLogRepository.cs" />
+    <Compile Include="SQLImlementation\Logs\ServicesLogRepository.cs" />
     <Compile Include="SQLImlementation\Shifts\ShiftRepository.cs" />
+    <Compile Include="SQLImlementation\UserLogs\CheatUsersRepository.cs" />
+    <Compile Include="SQLImlementation\UserLogs\LostUsersLogRepository.cs" />
+    <Compile Include="SQLImlementation\UserLogs\UserLogRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ATSCommon\ATSCommon.csproj">

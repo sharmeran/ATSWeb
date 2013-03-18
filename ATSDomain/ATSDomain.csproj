@@ -58,6 +58,7 @@
     <Compile Include="Domains\Employee\RankDomain.cs" />
     <Compile Include="Domains\Employee\SpecialistDomain.cs" />
     <Compile Include="Domains\Employee\TitleDomain.cs" />
+    <Compile Include="Domains\HandPunch\HandPunchDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
