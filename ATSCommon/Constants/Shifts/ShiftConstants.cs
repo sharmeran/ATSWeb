@@ -21,5 +21,7 @@ namespace ATSCommon.Constants.Shifts
        public const string IsNormalShift = "IS_NORMAL_SHIFT";
        public const string MaxAllowWorkTime = "MAX_ALLOW_WORK_TIME";
        public const string MinAllowWorkTime = "MIN_ALLOW_WORK_TIME";
+       public const string IsOffDay = "IS_OFF_DAY";
+       
     }
 }

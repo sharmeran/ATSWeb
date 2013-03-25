@@ -123,6 +123,12 @@ namespace ATSDataAccess.SQLImlementation.Devices
                 serverParameter.Value = entity.Server.ID;
                 com.Parameters.Add(serverParameter);
 
+                OracleParameter internalDBDeviceID = new OracleParameter();
+                internalDBDeviceID.Direction = ParameterDirection.Input;
+                internalDBDeviceID.OracleDbType = OracleDbType.Int32;
+                internalDBDeviceID.Value = entity.InternalDBDeviceID;
+                com.Parameters.Add(internalDBDeviceID);
+
                 int spResult = 0;
 
                 spResult = com.ExecuteNonQuery();
@@ -216,6 +222,12 @@ namespace ATSDataAccess.SQLImlementation.Devices
                 serverParameter.OracleDbType = OracleDbType.Int32;
                 serverParameter.Value = entity.Server.ID;
                 com.Parameters.Add(serverParameter);
+
+                OracleParameter internalDBDeviceID = new OracleParameter();
+                internalDBDeviceID.Direction = ParameterDirection.Input;
+                internalDBDeviceID.OracleDbType = OracleDbType.Int32;
+                internalDBDeviceID.Value = entity.InternalDBDeviceID;
+                com.Parameters.Add(internalDBDeviceID);
 
                 int spResult = 0;
 
@@ -458,6 +470,7 @@ namespace ATSDataAccess.SQLImlementation.Devices
             device.Category = deviceCategoryRepository.FindByID(Convert.ToInt32(reader[DeviceConstants.CategoryID]), new ATSCommon.ActionState());
             ServerRepository serverRepository = new ServerRepository();
             device.Server = serverRepository.FindByID(Convert.ToInt32(reader[DeviceConstants.ServerID]), new ATSCommon.ActionState());
+            device.InternalDBDeviceID = Convert.ToInt32(reader[DeviceConstants.InternalDBDeviceID]);
             return device;
         }
     }

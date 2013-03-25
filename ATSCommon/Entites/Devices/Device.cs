@@ -18,6 +18,13 @@ namespace ATSCommon.Entites.Devices
         int port;
         DeviceCategory category;
         Server server;
+        int internalDBDeviceID;
+
+        public int InternalDBDeviceID
+        {
+            get { return internalDBDeviceID; }
+            set { internalDBDeviceID = value; }
+        }
 
         public Server Server
         {

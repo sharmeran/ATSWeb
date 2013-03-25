@@ -138,6 +138,12 @@ namespace ATSDataAccess.SQLImlementation.Shifts
                 minAllowTime.OracleDbType = OracleDbType.Int32;
                 com.Parameters.Add(minAllowTime);
 
+                OracleParameter isOffDay = new OracleParameter();
+                isOffDay.Direction = ParameterDirection.Input;
+                isOffDay.Value =Convert.ToInt32( entity.IsOffDay);
+                isOffDay.OracleDbType = OracleDbType.Int32;
+                com.Parameters.Add(isOffDay);
+
                 com.ExecuteNonQuery();
                 actionState.SetSuccess();
 
@@ -246,6 +252,12 @@ namespace ATSDataAccess.SQLImlementation.Shifts
                 minAllowTime.Value = entity.MinAllowWorkTime;
                 minAllowTime.OracleDbType = OracleDbType.Int32;
                 com.Parameters.Add(minAllowTime);
+
+                OracleParameter isOffDay = new OracleParameter();
+                isOffDay.Direction = ParameterDirection.Input;
+                isOffDay.Value = Convert.ToInt32(entity.IsOffDay);
+                isOffDay.OracleDbType = OracleDbType.Int32;
+                com.Parameters.Add(isOffDay);
 
                 com.ExecuteNonQuery();
                 actionState.SetSuccess();
@@ -587,6 +599,7 @@ namespace ATSDataAccess.SQLImlementation.Shifts
             shift.Name = reader[ShiftConstants.Name].ToString();
             shift.OutAllowTime = Convert.ToInt32(reader[ShiftConstants.OutAllowTime]);
             shift.OutTime = Convert.ToDateTime(reader[ShiftConstants.OutTime]);
+            shift.IsOffDay = Convert.ToBoolean(reader[ShiftConstants.IsOffDay]);
             return shift;
         }
     }

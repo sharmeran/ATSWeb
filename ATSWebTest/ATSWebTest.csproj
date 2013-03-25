@@ -45,7 +45,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ATSCommon\ATSCommon.csproj">
@@ -55,6 +57,10 @@
     <ProjectReference Include="..\ATSDataAccess\ATSDataAccess.csproj">
       <Project>{9becfad0-6669-4f23-8e20-e37513b79959}</Project>
       <Name>ATSDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATSDomain\ATSDomain.csproj">
+      <Project>{39ccea91-9702-4119-a6e9-7454c3cd9d66}</Project>
+      <Name>ATSDomain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

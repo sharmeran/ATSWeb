@@ -17,5 +17,6 @@ namespace ATSCommon.Constants.Devices
         public const string Port = "PORT";
         public const string CategoryID = "CATEGORY_ID";
         public const string ServerID = "SERVER_ID";
+        public const string InternalDBDeviceID = "INTERNAL_DB_DEVICE_ID";
     }
 }

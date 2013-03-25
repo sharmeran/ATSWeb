@@ -16,7 +16,11 @@ namespace ATSCommon
         private ActionStatusEnum status;
         private string result;
         private int ownerID;
+       
+
+       
         #endregion
+
 
         #region Public Properties
         /// <summary>
@@ -28,8 +32,8 @@ namespace ATSCommon
             get { return status; }
             set { status = value; }
         }
-
-
+        
+       
         /// <summary>
         /// In case of errors the ActionResult is filled with the error message
         /// </summary>

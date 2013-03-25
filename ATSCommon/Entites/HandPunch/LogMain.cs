@@ -12,8 +12,8 @@ namespace ATSCommon.Entites.HandPunch
         int iD;
         int userID;
         DateTime attendanceDate;
-        DateTime inDate;
-        DateTime outDate;
+        DateTime? inDate;
+        DateTime? outDate;
         bool isClosed;
         int missIN;
         int missOut;
@@ -57,13 +57,13 @@ namespace ATSCommon.Entites.HandPunch
             set { isClosed = value; }
         }
 
-        public DateTime OutDate
+        public DateTime? OutDate
         {
             get { return outDate; }
             set { outDate = value; }
         }
 
-        public DateTime InDate
+        public DateTime? InDate
         {
             get { return inDate; }
             set { inDate = value; }

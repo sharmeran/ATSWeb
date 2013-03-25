@@ -73,7 +73,7 @@ namespace ATSCommon.Utilities
             LogEntry logEntry = new LogEntry();
             logEntry.Message = message;
             logEntry.Severity = level;
-            Microsoft.Practices.EnterpriseLibrary.Logging.Logger.Write(logEntry);
+            //Microsoft.Practices.EnterpriseLibrary.Logging.Logger.Write(logEntry);
         }
         private void initLogTemplate()
         {

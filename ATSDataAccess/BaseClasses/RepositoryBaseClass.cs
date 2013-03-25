@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using ATSCommon.Enums;
 using ATSCommon.Utilities;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Oracle;
+using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using Microsoft.Win32;
 
 namespace ATSDataAccess.BaseClasses
@@ -24,7 +26,7 @@ namespace ATSDataAccess.BaseClasses
         /// </summary>
         protected RepositoryBaseClass()
         {
-            database = new OracleDatabase("ConnectionString"); //DatabaseFactory.CreateDatabase();
+            database = new SqlDatabase(ConfigurationManager.ConnectionStrings["SQL"].ConnectionString);
         }
 
        

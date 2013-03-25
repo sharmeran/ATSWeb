@@ -118,6 +118,7 @@
     <Compile Include="Enums\ServicesActionsEnum.cs" />
     <Compile Include="Enums\ServicesEnum.cs" />
     <Compile Include="Enums\UserLogTypeEnum.cs" />
+    <Compile Include="Enums\XMLLoggingTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\LoggingUtil.cs" />
   </ItemGroup>

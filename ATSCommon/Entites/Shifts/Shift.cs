@@ -22,6 +22,13 @@ namespace ATSCommon.Entites.Shifts
         bool isNormalShift;
         int maxAllowWorkTime;
         int minAllowWorkTime;
+        bool isOffDay;
+
+        public bool IsOffDay
+        {
+            get { return isOffDay; }
+            set { isOffDay = value; }
+        }
 
         public int MinAllowWorkTime
         {
