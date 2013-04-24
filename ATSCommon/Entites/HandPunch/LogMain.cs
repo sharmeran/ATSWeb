@@ -15,37 +15,37 @@ namespace ATSCommon.Entites.HandPunch
         DateTime? inDate;
         DateTime? outDate;
         bool isClosed;
-        int missIN;
-        int missOut;
-        int shiftID;
-        int plusIN;
-        int plusOut;
+        int? missIN;
+        int? missOut;
+        int? shiftID;
+        int? plusIN;
+        int? plusOut;
 
-        public int PlusOut
+        public int? PlusOut
         {
             get { return plusOut; }
             set { plusOut = value; }
         }
 
-        public int PlusIN
+        public int? PlusIN
         {
             get { return plusIN; }
             set { plusIN = value; }
         }
 
-        public int ShiftID
+        public int? ShiftID
         {
             get { return shiftID; }
             set { shiftID = value; }
         }
 
-        public int MissOut
+        public int? MissOut
         {
             get { return missOut; }
             set { missOut = value; }
         }
 
-        public int MissIN
+        public int? MissIN
         {
             get { return missIN; }
             set { missIN = value; }

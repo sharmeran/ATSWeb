@@ -64,15 +64,21 @@ namespace ATSDataAccess.SQLImlementation.UserLogs
                 database.AddInParameter(cmd, LostUsersLogRepositoryConstants.LogingDateTime, DbType.DateTime, entity.LoggingDate);
                 database.AddInParameter(cmd, LostUsersLogRepositoryConstants.Device, DbType.Int32, entity.Device.ID);
 
-
-                spResult = database.ExecuteNonQuery(cmd);
-                if (spResult > 0)
+                if (!IsExist(entity, actionState))
                 {
-                    actionState.SetSuccess();
+                    spResult = database.ExecuteNonQuery(cmd);
+                    if (spResult > 0)
+                    {
+                        actionState.SetSuccess();
+                    }
+                    else
+                    {
+                        actionState.SetFail(ActionStatusEnum.CannotInsert, CommonConstants.Err_CannotInsert);
+                    }
                 }
                 else
                 {
-                    actionState.SetFail(ActionStatusEnum.CannotInsert, CommonConstants.Err_CannotInsert);
+                    actionState.SetSuccess();
                 }
             }
             catch (Exception ex)
@@ -160,7 +166,33 @@ namespace ATSDataAccess.SQLImlementation.UserLogs
             throw new NotImplementedException();
         }
 
-      
+        public bool IsExist(LostUsersLog entity, ActionState actionState)
+        {
+            DbCommand cmd;
+            bool isExist = false;
+            try
+            {
+                DateTime startDate=new DateTime(entity.LoggingDate.Year, entity.LoggingDate.Month, entity.LoggingDate.Day, 0,0,0);
+                DateTime endDate=new DateTime(entity.LoggingDate.Year, entity.LoggingDate.Month, entity.LoggingDate.Day, 23,59,59);
+                cmd = database.GetStoredProcCommand(LostUsersLogRepositoryConstants.IsExist);
+                database.AddInParameter(cmd, LostUsersLogRepositoryConstants.UserID, DbType.Int32, entity.UserID);
+                database.AddInParameter(cmd, LostUsersLogRepositoryConstants.LogingType, DbType.Int32, entity.LoggingType);
+                database.AddInParameter(cmd, LostUsersLogRepositoryConstants.StartDate, DbType.Date, startDate);
+                database.AddInParameter(cmd, LostUsersLogRepositoryConstants.EndDate, DbType.Date, endDate);
+                int result = Convert.ToInt32(cmd.ExecuteScalar());
+                if (result > 0) isExist = true;
+                actionState.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                actionState.SetFail(ActionStatusEnum.Exception, ex.Message);
+            }
+            finally
+            {
+                cmd = null;
+            }
+            return isExist;
+        }
         private LostUsersLog LostUsersLogHelper(SqlDataReader reader)
         {
             LostUsersLog lostUsersLog = new LostUsersLog();

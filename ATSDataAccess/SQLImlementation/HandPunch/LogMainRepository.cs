@@ -335,6 +335,64 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             return logMainList;
         }
 
+
+        public List<LogMain> FindByDateAndUserIDAndIsNotClosed(DateTime date, int userID, ATSCommon.ActionState actionState)
+        {
+            OracleConnection con = null;
+            OracleCommand com = null;
+            List<LogMain> logMainList = new List<LogMain>();
+            LogMain logMain = new LogMain();
+            try
+            {
+                con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+                com = new OracleCommand(LogMainRepositoryConstants.FindByUserIDAndDateAndNotClosed, con);
+                con.Open();
+                com.CommandType = System.Data.CommandType.StoredProcedure;
+                OracleParameter refCursorParameter = new OracleParameter();
+                refCursorParameter.OracleDbType = OracleDbType.RefCursor;
+                refCursorParameter.Direction = ParameterDirection.Output;
+                com.Parameters.Add(refCursorParameter);
+
+                OracleParameter userIDParameter = new OracleParameter();
+                userIDParameter.OracleDbType = OracleDbType.Int32;
+                userIDParameter.Direction = ParameterDirection.Input; ;
+                userIDParameter.Value = userID;
+                com.Parameters.Add(userIDParameter);
+
+                OracleParameter attendanceDateParameter = new OracleParameter();
+                attendanceDateParameter.OracleDbType = OracleDbType.Date;
+                attendanceDateParameter.Direction = ParameterDirection.Input; ;
+                attendanceDateParameter.Value = date;
+                com.Parameters.Add(attendanceDateParameter);
+
+
+                using (Oracle.DataAccess.Client.OracleDataReader reader = ((Oracle.DataAccess.Client.OracleDataReader)(com.ExecuteReader())))
+                {
+                    while (reader.Read())
+                    {
+                        logMain = LogMainHelper(reader);
+                        if (logMain != null)
+                        {
+                            logMainList.Add(logMain);
+                        }
+                    }
+                }
+                actionState.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                actionState.SetFail(ATSCommon.Enums.ActionStatusEnum.Exception, ex.Message);
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+                com.Dispose();
+            }
+            return logMainList;
+        }
+
+
         public List<LogMain> FindByDateAndDeptCode(string deptCode, DateTime date, ATSCommon.ActionState actionState)
         {
             OracleConnection con = null;
@@ -396,14 +454,23 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
             LogMain logMain = new LogMain();
             logMain.AttendanceDate = Convert.ToDateTime(reader[LogMainConstants.AttendanceDate]);
             logMain.ID = Convert.ToInt32(reader[LogMainConstants.ID]);
+            if(reader[LogMainConstants.InDate]!=DBNull.Value)
             logMain.InDate = Convert.ToDateTime(reader[LogMainConstants.InDate]);
+            if (reader[LogMainConstants.IsClosed] != DBNull.Value)
             logMain.IsClosed = Convert.ToBoolean(reader[LogMainConstants.IsClosed]);
+            if (reader[LogMainConstants.MissIn] != DBNull.Value)
             logMain.MissIN = Convert.ToInt32(reader[LogMainConstants.MissIn]);
+            if (reader[LogMainConstants.MissOut] != DBNull.Value)
             logMain.MissOut = Convert.ToInt32(reader[LogMainConstants.MissOut]);
+            if (reader[LogMainConstants.OutDate] != DBNull.Value)
             logMain.OutDate = Convert.ToDateTime(reader[LogMainConstants.OutDate]);
+            if (reader[LogMainConstants.PlusIn] != DBNull.Value)
             logMain.PlusIN = Convert.ToInt32(reader[LogMainConstants.PlusIn]);
+            if (reader[LogMainConstants.PlusOut] != DBNull.Value)
             logMain.PlusOut = Convert.ToInt32(reader[LogMainConstants.PlusOut]);
+            if (reader[LogMainConstants.ShiftID] != DBNull.Value)
             logMain.ShiftID = Convert.ToInt32(reader[LogMainConstants.ShiftID]);
+            if (reader[LogMainConstants.UserID] != DBNull.Value)
             logMain.UserID = Convert.ToInt32(reader[LogMainConstants.UserID]);
             return logMain;
         }

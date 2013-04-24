@@ -84,7 +84,68 @@ namespace ATSDataAccess.SQLImlementation.HandPunch
 
         public override void Update(LogDetails entity, ATSCommon.ActionState actionState)
         {
-            throw new NotImplementedException();
+            OracleConnection con = null;
+            OracleCommand com = null;
+            try
+            {
+                con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+                com = new OracleCommand(LogDetailRepositoryConstants.Update, con);
+                con.Open();
+
+                com.CommandType = CommandType.StoredProcedure;
+
+                OracleParameter idParameter = new OracleParameter();
+                idParameter.OracleDbType = OracleDbType.Int32;
+                idParameter.Direction = ParameterDirection.Input;
+                idParameter.Value = entity.ID;
+                com.Parameters.Add(idParameter);
+
+                OracleParameter mainIDParameter = new OracleParameter();
+                mainIDParameter.OracleDbType = OracleDbType.Int32;
+                mainIDParameter.Direction = ParameterDirection.Input;
+                mainIDParameter.Value = entity.LogMainID;
+                com.Parameters.Add(mainIDParameter);
+
+                OracleParameter operationDateParameter = new OracleParameter();
+                operationDateParameter.OracleDbType = OracleDbType.Date;
+                operationDateParameter.Direction = ParameterDirection.Input;
+                operationDateParameter.Value = entity.OperationDate;
+                com.Parameters.Add(operationDateParameter);
+
+                OracleParameter operationTypeParameter = new OracleParameter();
+                operationTypeParameter.OracleDbType = OracleDbType.Int32;
+                operationTypeParameter.Direction = ParameterDirection.Input;
+                operationTypeParameter.Value = entity.OperationType;
+                com.Parameters.Add(operationTypeParameter);
+
+                OracleParameter isWrongParameter = new OracleParameter();
+                isWrongParameter.OracleDbType = OracleDbType.Int32;
+                isWrongParameter.Direction = ParameterDirection.Input;
+                isWrongParameter.Value = entity.IsWrong;
+                com.Parameters.Add(isWrongParameter);
+
+                OracleParameter deviceIDParameter = new OracleParameter();
+                deviceIDParameter.OracleDbType = OracleDbType.Int32;
+                deviceIDParameter.Direction = ParameterDirection.Input;
+                deviceIDParameter.Value = entity.DeviceID;
+                com.Parameters.Add(deviceIDParameter);
+
+                com.ExecuteNonQuery();
+                actionState.SetSuccess();
+
+            }
+            catch (Exception ex)
+            {
+                actionState.SetFail(ActionStatusEnum.Exception, ex.Message);
+
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+                com.Dispose();
+
+            }
         }
 
         public override List<LogDetails> FindAll(ATSCommon.ActionState actionState)

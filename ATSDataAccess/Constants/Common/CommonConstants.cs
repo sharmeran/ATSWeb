@@ -29,10 +29,16 @@ namespace ATSDataAccess.Constants.Common
        #region ErrorMessages
        public const string Err_CnnotInsertUserLog = "اضافة سجل للبصمة";
        public const string Err_CnnotGetUserShift = "لايمكن ايجاد معلومات الدوام";
+       public const string Err_CnnotGetUserShiftPerDate = "لايمكن ايجاد معلومات الدوام المرتبطة بهذا اليوم";
        public const string Err_CannotFindUserDefaultShift = "لا يمكن ايجاد معلومات الدوام الافتراضية";
        public const string Err_ThereIsNoSHift = "لا يوجد معلومات دوام منسوبة للمستخدم";
+       public const string Err_ProblemInGetLogMain = "حدث خطأ في جلب معلومات الدوام اليومي";
        public const string Err_ShiftsMustEqualToSeven = "يجب اسناد دوريات ايام الاسبوع اجمع او ان نوع الدوام ليس بدوام منتظم";
        public const string Err_NoShiftInThisDate = "لاتوجد دورية بمثل هذا اليوم";
+       public const string Err_UserMustHasNormalShift = "يجب ان يكون للمستخدم دوام منتظم";
+       public const string Err_ErrorShiftCount = "خطأ في عدد الدوريات المنسوبة";
+       public const string Err_GetUserMainLog = "خطأ في اختيار سجل دوام المستخدم";
+       public const string Err_NoShiftInThisDay = "لاتوجد دورية منسوبة للموظف في هذا اليوم";
        #endregion
 
        #region DomainParameterUsage
