@@ -24,6 +24,7 @@ namespace ATSCommon.BaseClasses
         /// </summary>
         /// <value><c>true</c> if this instance is dirty; otherwise, <c>false</c>.</value>
         [XmlIgnore]
+        [DataMember]
         public bool IsDirty
         {
             get
@@ -93,6 +94,7 @@ namespace ATSCommon.BaseClasses
         /// </summary>
         /// <value><c>true</c> if this instance is valid; otherwise, <c>false</c>.</value>
         [XmlIgnore]
+        [DataMember]
         public bool IsValid
         {
             get { return Validate().IsValid; }
@@ -104,6 +106,7 @@ namespace ATSCommon.BaseClasses
         /// Validates this instance.
         /// </summary>
         /// <returns>return list of validation results</returns>
+   
         public ValidationResults Validate()
         {
             validationResults = ValidationFactory.CreateValidator(this.GetType())
@@ -116,6 +119,7 @@ namespace ATSCommon.BaseClasses
         /// </summary>
         /// <value>The validation error message.</value>
         [XmlIgnore]
+        [DataMember]
         public string ValidationErrorMessage
         {
             get

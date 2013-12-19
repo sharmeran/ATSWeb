@@ -74,14 +74,14 @@ namespace ATSDomain.Domains.Logs
             }
         }
 
-        public void FindUserShift(int userID, int deviceID, int operationType, DateTime operationDate, Shift shift,LogMain logMain)
+        public void FindUserShift(int userID, int deviceID, int operationType, DateTime operationDate, Shift shift, LogMain logMain)
         {
             ShiftRepository shiftRepository = new ShiftRepository();
             List<Shift> shiftCurrentDayList = new List<Shift>();
             List<Shift> shiftYesterDayList = new List<Shift>();
             List<Shift> shiftList = new List<Shift>();
             ActionState actionState = new ActionState();
-            
+
             List<LogMain> logMainList = new List<LogMain>();
             LogMainRepository logMainRepository = new LogMainRepository();
             shiftList = shiftRepository.FindByUserID(userID, actionState);
@@ -91,8 +91,8 @@ namespace ATSDomain.Domains.Logs
             }
             else
             {
-                //if there is no shift assigned to the user
-                if (shiftList.Count == 0)
+            //if there is no shift assigned to the user
+            A: if (shiftList.Count == 0)
                 {
                     actionState = new ActionState();
                     //retrive the default shift values
@@ -110,6 +110,7 @@ namespace ATSDomain.Domains.Logs
                         else if (shiftList.Count == 1)
                         {
                             shift = shiftList[0];
+                            goto A;
                         }
                         else
                         {
@@ -119,6 +120,8 @@ namespace ATSDomain.Domains.Logs
 
                             var yesterdayList = from z in shiftList where z.DayID == Convert.ToInt32(operationDate.AddDays(-1).DayOfWeek) select z;
                             shiftYesterDayList = yesterdayList.ToList<Shift>();
+
+                            goto A;
                         }
                     }
                 }
@@ -126,186 +129,446 @@ namespace ATSDomain.Domains.Logs
                 {
                     if (operationType == 1)
                     {
-                       Shift yesterdayShift= new Shift();
-                        yesterdayShift=shiftYesterDayList.OrderByDescending(c=>c.InTime).First();
-                        if (operationDate.TimeOfDay < shiftList[0].InTime.TimeOfDay && (yesterdayShift.OutTime.TimeOfDay-yesterdayShift.InTime.TimeOfDay).TotalMinutes<0 && operationDate.TimeOfDay<yesterdayShift.OutTime.TimeOfDay)
+                        Shift yesterdayShift = new Shift();
+                        if (shiftYesterDayList.Count > 0)
+                        {
+                            yesterdayShift = shiftYesterDayList.OrderByDescending(c => c.InTime).First();
+                        }
+                        if (operationDate.TimeOfDay < shiftList[0].InTime.TimeOfDay && (yesterdayShift.OutTime.TimeOfDay - yesterdayShift.InTime.TimeOfDay).TotalMinutes < 0 && operationDate.TimeOfDay < yesterdayShift.OutTime.TimeOfDay)
                         {
                             shift = yesterdayShift;
                         }
                         else if (operationDate.TimeOfDay < shiftList[0].OutTime.TimeOfDay)
                             shift = shiftList[0];
 
-                         logMainList = logMainRepository.FindByDateAndUserID(operationDate, userID, actionState);
-                         if (actionState.Status == ActionStatusEnum.NoError)
-                         {
-                             LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_ProblemInGetLogMain, OperationSourceEnum.OracleDB);
-                         }
-                         else
-                         {
-                             if (logMainList.Count == 0)
-                             {
-                                 if (shift.ID == 0)
-                                 {
-                                     logMain.AttendanceDate = operationDate;
-                                     logMain.InDate = operationDate;
-                                     logMain.IsClosed = false;
-                                     logMain.MissIN = 0;
-                                     logMain.MissOut = 0;
-                                     logMain.OutDate = null;
-                                     logMain.PlusIN = 0;
-                                     logMain.PlusOut = 0;
-                                     logMain.ShiftID = 0;
-                                     logMain.UserID = userID;
-                                     actionState = new ActionState();
-                                     logMainRepository.Insert(logMain, actionState);
-                                     if (actionState.Status == ActionStatusEnum.NoError)
-                                     {
-                                         LogDetails logDetails = new LogDetails();
-                                         logDetails.DeviceID = deviceID;
-                                         logDetails.IsWrong = false;
-                                         logDetails.LogMainID = logMain.ID;
-                                         logDetails.OperationDate = operationDate;
-                                         logDetails.OperationType = 1;
+                        logMainList = logMainRepository.FindByDateAndUserID(operationDate, userID, actionState);
+                        if (actionState.Status != ActionStatusEnum.NoError)
+                        {
+                            LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_ProblemInGetLogMain, OperationSourceEnum.OracleDB);
+                        }
+                        else
+                        {
+                            if (logMainList.Count == 0)
+                            {
+                                if (shift.ID == 0)
+                                {
+                                    logMain.AttendanceDate = operationDate;
+                                    logMain.InDate = operationDate;
+                                    logMain.IsClosed = false;
+                                    logMain.MissIN = 0;
+                                    logMain.MissOut = 0;
+                                    logMain.OutDate = null;
+                                    logMain.PlusIN = 0;
+                                    logMain.PlusOut = 0;
+                                    logMain.ShiftID = 0;
+                                    logMain.UserID = userID;
+                                    actionState = new ActionState();
+                                    logMainRepository.Insert(logMain, actionState);
+                                    if (actionState.Status == ActionStatusEnum.NoError)
+                                    {
+                                        LogDetails logDetails = new LogDetails();
+                                        logDetails.DeviceID = deviceID;
+                                        logDetails.IsWrong = false;
+                                        logDetails.LogMainID = logMain.ID;
+                                        logDetails.OperationDate = operationDate;
+                                        logDetails.OperationType = 1;
 
-                                         LogDetailRepository logDetailRepository = new LogDetailRepository();
-                                         logDetailRepository.Insert(logDetails, new ActionState());
-                                     }
-                                     else
-                                     {
-                                         LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
-                                     }
-                                 }
-                                 else
-                                 {
-                                     logMain = ShiftCalculations(shift, operationDate, operationType);
-                                     logMain.AttendanceDate = operationDate;
-                                     logMain.InDate = operationDate;
-                                     logMain.IsClosed = false;
-                                     logMain.MissOut = 0;
-                                     logMain.OutDate = null;
-                                     logMain.PlusOut = 0;
-                                     logMain.ShiftID = shift.ID;
-                                     logMain.UserID = userID;
-                                     actionState = new ActionState();
-                                     logMainRepository.Insert(logMain, actionState);
-                                     if (actionState.Status == ActionStatusEnum.NoError)
-                                     {
-                                         LogDetails logDetails = new LogDetails();
-                                         logDetails.DeviceID = deviceID;
-                                         logDetails.IsWrong = false;
-                                         logDetails.LogMainID = logMain.ID;
-                                         logDetails.OperationDate = operationDate;
-                                         logDetails.OperationType = 1;
+                                        LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                        logDetailRepository.Insert(logDetails, new ActionState());
+                                    }
+                                    else
+                                    {
+                                        LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                    }
+                                }
+                                else
+                                {
+                                    logMain = ShiftCalculations(shift, operationDate, operationType);
+                                    logMain.AttendanceDate = operationDate;
+                                    logMain.InDate = operationDate;
+                                    logMain.IsClosed = false;
+                                    logMain.MissOut = 0;
+                                    logMain.OutDate = null;
+                                    logMain.PlusOut = 0;
+                                    logMain.ShiftID = shift.ID;
+                                    logMain.UserID = userID;
+                                    actionState = new ActionState();
+                                    logMainRepository.Insert(logMain, actionState);
+                                    if (actionState.Status == ActionStatusEnum.NoError)
+                                    {
+                                        LogDetails logDetails = new LogDetails();
+                                        logDetails.DeviceID = deviceID;
+                                        logDetails.IsWrong = false;
+                                        logDetails.LogMainID = logMain.ID;
+                                        logDetails.OperationDate = operationDate;
+                                        logDetails.OperationType = 1;
 
-                                         LogDetailRepository logDetailRepository = new LogDetailRepository();
-                                         logDetailRepository.Insert(logDetails, new ActionState());
-                                     }
-                                     else
-                                     {
-                                         LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
-                                     }
-                                 }
-                             }
-                             else
-                             {
-                                 logMain = logMainList.OrderByDescending(c => c.InDate).ToList<LogMain>().First();
-                                 if (shift.ID == 0)
-                                 {
-                                     LogDetails logDetails = new LogDetails();
-                                     if (logMain.IsClosed == false)
-                                         logDetails.IsWrong = true;
-                                     else
-                                         logDetails.IsWrong = false;
+                                        LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                        logDetailRepository.Insert(logDetails, new ActionState());
+                                    }
+                                    else
+                                    {
+                                        LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                logMain = logMainList.OrderByDescending(c => c.InDate).ToList<LogMain>().First();
+                                if (shift.ID == 0)
+                                {
+                                    LogDetails logDetails = new LogDetails();
+                                    if (logMain.IsClosed == false)
+                                        logDetails.IsWrong = true;
+                                    else
+                                        logDetails.IsWrong = false;
 
-                                     logMain.AttendanceDate = operationDate;
-                                     logMain.InDate = operationDate;
-                                     logMain.IsClosed = false;
-                                     logMain.MissIN = 0;
-                                     logMain.MissOut = 0;
-                                     logMain.OutDate = null;
-                                     logMain.PlusIN = 0;
-                                     logMain.PlusOut = 0;
-                                     logMain.ShiftID = 0;
-                                     logMain.UserID = userID;
-                                     actionState = new ActionState();
-                                     logMainRepository.Insert(logMain, actionState);
-                                     if (actionState.Status == ActionStatusEnum.NoError)
-                                     {
-                                         
-                                         logDetails.DeviceID = deviceID;         
-                                         
-                                         logDetails.LogMainID = logMain.ID;
-                                         logDetails.OperationDate = operationDate;
-                                         logDetails.OperationType = 1;
+                                    logMain.AttendanceDate = operationDate;
+                                    logMain.InDate = operationDate;
+                                    logMain.IsClosed = false;
+                                    logMain.MissIN = 0;
+                                    logMain.MissOut = 0;
+                                    logMain.OutDate = null;
+                                    logMain.PlusIN = 0;
+                                    logMain.PlusOut = 0;
+                                    logMain.ShiftID = 0;
+                                    logMain.UserID = userID;
+                                    actionState = new ActionState();
+                                    logMainRepository.Insert(logMain, actionState);
+                                    if (actionState.Status == ActionStatusEnum.NoError)
+                                    {
 
-                                         LogDetailRepository logDetailRepository = new LogDetailRepository();
-                                         logDetailRepository.Insert(logDetails, new ActionState());
-                                     }
-                                     else
-                                     {
-                                         LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
-                                     }
-                                 }
-                                 else
-                                 {
-                                     LogDetails logDetails = new LogDetails();
-                                     if (logMain.IsClosed == false)
-                                         logDetails.IsWrong = true;
-                                     else
-                                         logDetails.IsWrong = false;
-                                     if (shift.ID != logMain.ShiftID)
-                                     {
-                                         logMain = ShiftCalculations(shift, operationDate, operationType);
-                                         logMain.AttendanceDate = operationDate;
-                                         logMain.InDate = operationDate;
-                                         logMain.IsClosed = false;
-                                         logMain.MissOut = 0;
-                                         logMain.OutDate = null;
-                                         logMain.PlusOut = 0;
-                                         logMain.ShiftID = shift.ID;
-                                         logMain.UserID = userID;
-                                         actionState = new ActionState();
-                                         logMainRepository.Insert(logMain, actionState);
-                                         if (actionState.Status == ActionStatusEnum.NoError)
-                                         {
+                                        logDetails.DeviceID = deviceID;
 
-                                             logDetails.DeviceID = deviceID;
-                                             logDetails.IsWrong = false;
-                                             logDetails.LogMainID = logMain.ID;
-                                             logDetails.OperationDate = operationDate;
-                                             logDetails.OperationType = 1;
+                                        logDetails.LogMainID = logMain.ID;
+                                        logDetails.OperationDate = operationDate;
+                                        logDetails.OperationType = 1;
 
-                                             LogDetailRepository logDetailRepository = new LogDetailRepository();
-                                             logDetailRepository.Insert(logDetails, new ActionState());
-                                         }
-                                         else
-                                         {
-                                             LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
-                                         }
-                                     }
-                                     else
-                                     {
-                                         logDetails = new LogDetails();
-                                         logDetails.IsWrong = true;
-                                         logDetails.DeviceID = deviceID;
-                                         logDetails.IsWrong = false;
-                                         logDetails.LogMainID = logMain.ID;
-                                         logDetails.OperationDate = operationDate;
-                                         logDetails.OperationType = 1;
+                                        LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                        logDetailRepository.Insert(logDetails, new ActionState());
+                                    }
+                                    else
+                                    {
+                                        LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                    }
+                                }
+                                else
+                                {
+                                    LogDetails logDetails = new LogDetails();
+                                    if (logMain.IsClosed == false)
+                                        logDetails.IsWrong = true;
+                                    else
+                                        logDetails.IsWrong = false;
+                                    if (shift.ID != logMain.ShiftID)
+                                    {
+                                        logMain = ShiftCalculations(shift, operationDate, operationType);
+                                        logMain.AttendanceDate = operationDate;
+                                        logMain.InDate = operationDate;
+                                        logMain.IsClosed = false;
+                                        logMain.MissOut = 0;
+                                        logMain.OutDate = null;
+                                        logMain.PlusOut = 0;
+                                        logMain.ShiftID = shift.ID;
+                                        logMain.UserID = userID;
+                                        actionState = new ActionState();
+                                        logMainRepository.Insert(logMain, actionState);
+                                        if (actionState.Status == ActionStatusEnum.NoError)
+                                        {
 
-                                         LogDetailRepository logDetailRepository = new LogDetailRepository();
-                                         logDetailRepository.Insert(logDetails, new ActionState());
-                                     }
-                                 }
-                             }
-                         }
-                        
+                                            logDetails.DeviceID = deviceID;
+                                            logDetails.IsWrong = false;
+                                            logDetails.LogMainID = logMain.ID;
+                                            logDetails.OperationDate = operationDate;
+                                            logDetails.OperationType = 1;
+
+                                            LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                            logDetailRepository.Insert(logDetails, new ActionState());
+                                        }
+                                        else
+                                        {
+                                            LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                        }
+                                    }
+                                    else
+                                    {
+                                       
+                                        if (logMain.InDate == null)
+                                        {
+
+                                           // logMain = logMainList.OrderByDescending(c => c.InDate).First();
+                                            logMain = ShiftCalculations(shiftList[0], operationDate, operationType);
+                                            logMain.OutDate = logMainList.OrderByDescending(c => c.InDate).First().OutDate;
+                                            logMain.PlusOut = logMainList.OrderByDescending(c => c.InDate).First().PlusOut;
+                                            logMain.MissOut = logMainList.OrderByDescending(c => c.InDate).First().MissOut;
+                                            logMain.ID = logMainList.OrderByDescending(c => c.InDate).First().ID;
+                                            logMain.UserID = userID;
+                                            logMain.IsClosed = true;
+                                            logMainRepository.Update(logMain, actionState);
+                                            if (actionState.Status == ActionStatusEnum.NoError)
+                                            {
+                                                logDetails = new LogDetails();
+                                                logDetails.IsWrong = true;
+                                                logDetails.DeviceID = deviceID;
+                                                logDetails.IsWrong = false;
+                                                logDetails.LogMainID = logMain.ID;
+                                                logDetails.OperationDate = operationDate;
+                                                logDetails.OperationType = 1;
+
+                                                LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                                logDetailRepository.Insert(logDetails, new ActionState());
+
+                                                List<LogDetails> logDetailsList = new List<LogDetails>();
+                                                logDetailsList = logDetailRepository.FindByLogMainID(logMain.ID, new ActionState());
+                                                var z = from x in logDetailsList where x.OperationType == 3 select x;
+                                                logDetailsList = z.ToList<LogDetails>().OrderByDescending(c => c.OperationDate).ToList<LogDetails>();
+
+                                                logDetails = logDetailsList.First();
+                                                logDetails.IsWrong = false;
+                                                logDetailRepository.Update(logDetails, new ActionState());
+
+                                            }
+                                            else
+                                            {
+                                                LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            logDetails = new LogDetails();
+                                            logDetails.IsWrong = true;
+                                            logDetails.DeviceID = deviceID;
+                                            logDetails.IsWrong = false;
+                                            logDetails.LogMainID = logMain.ID;
+                                            logDetails.OperationDate = operationDate;
+                                            logDetails.OperationType = 1;
+
+                                            LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                            logDetailRepository.Insert(logDetails, new ActionState());
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
                     }
                     else
                     {
-                        //one shift and operation type=3
+                        actionState = new ActionState();
+                        logMainList = logMainRepository.FindByDateAndUserIDAndIsNotClosed(operationDate, userID, actionState);
+                        if (actionState.Status != ActionStatusEnum.NoError)
+                        {
+                            LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_ProblemInGetLogMain, OperationSourceEnum.OracleDB);
+                        }
+                        else
+                        {
+
+                            if (logMainList.Count == 0)
+                            {
+                                actionState = new ActionState();
+                                logMainList = logMainRepository.FindByDateAndUserIDAndIsNotClosed(operationDate.AddDays(-1), userID, actionState);
+                                if (actionState.Status != ActionStatusEnum.NoError)
+                                {
+                                    LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_ProblemInGetLogMain, OperationSourceEnum.OracleDB);
+                                }
+                                else
+                                {
+                                    if (logMainList.Count == 0)
+                                    {
+                                        if (shiftList[0].OutTime.AddMinutes(shiftList[0].MinAllowWorkTime).TimeOfDay >= operationDate.TimeOfDay && shiftList[0].InTime.TimeOfDay < operationDate.TimeOfDay)
+                                        {
+                                            logMain = ShiftCalculations(shiftList[0], operationDate, operationType);
+                                            logMain.UserID = userID;
+                                            actionState = new ActionState();
+                                            logMainRepository.Insert(logMain, actionState);
+                                            if (actionState.Status != ActionStatusEnum.NoError)
+                                            {
+                                                LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                            }
+                                            else
+                                            {
+                                                LogDetails logDetails = new LogDetails();
+                                                logDetails.DeviceID = deviceID;
+                                                logDetails.IsWrong = true;
+                                                logDetails.LogMainID = logMain.ID;
+                                                logDetails.OperationDate = operationDate;
+                                                logDetails.OperationType = 3;
+
+                                                LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                                logDetailRepository.Insert(logDetails, new ActionState());
+                                            }
+                                        }
+                                        else
+                                        {
+                                            logMain.UserID = userID;
+                                            logMain.AttendanceDate = operationDate;
+                                            logMain.OutDate = operationDate;
+                                            logMain.IsClosed = false;
+                                            logMain.MissIN = 0;
+                                            logMain.MissOut = 0;
+                                            logMain.PlusIN = 0;
+                                            logMain.PlusOut = 0;
+                                            logMain.ShiftID = 0;
+                                            actionState = new ActionState();
+                                            logMainRepository.Insert(logMain, actionState);
+                                            if (actionState.Status != ActionStatusEnum.NoError)
+                                            {
+                                                LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                            }
+                                            else
+                                            {
+                                                LogDetails logDetails = new LogDetails();
+                                                logDetails.DeviceID = deviceID;
+                                                logDetails.IsWrong = true;
+                                                logDetails.LogMainID = logMain.ID;
+                                                logDetails.OperationDate = operationDate;
+                                                logDetails.OperationType = 3;
+
+                                                LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                                logDetailRepository.Insert(logDetails, new ActionState());
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (operationDate.TimeOfDay <= shiftList[0].InTime.TimeOfDay)
+                                        {
+                                            logMain.UserID = userID;
+                                            logMain.AttendanceDate = operationDate;
+                                            logMain.OutDate = operationDate;
+                                            logMain.IsClosed = false;
+                                            logMain.MissIN = 0;
+                                            logMain.MissOut = 0;
+                                            logMain.PlusIN = 0;
+                                            logMain.PlusOut = 0;
+                                            logMain.ShiftID = 0;
+                                            actionState = new ActionState();
+                                            logMainRepository.Insert(logMain, actionState);
+                                            if (actionState.Status != ActionStatusEnum.NoError)
+                                            {
+                                                LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                            }
+                                            else
+                                            {
+                                                LogDetails logDetails = new LogDetails();
+                                                logDetails.DeviceID = deviceID;
+                                                logDetails.IsWrong = true;
+                                                logDetails.LogMainID = logMain.ID;
+                                                logDetails.OperationDate = operationDate;
+                                                logDetails.OperationType = 3;
+
+                                                LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                                logDetailRepository.Insert(logDetails, new ActionState());
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            logMain = ShiftCalculations(shiftList[0], operationDate, operationType);
+                                            logMain.UserID = userID;
+                                            actionState = new ActionState();
+                                            logMainRepository.Insert(logMain, actionState);
+                                            if (actionState.Status != ActionStatusEnum.NoError)
+                                            {
+                                                LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                            }
+                                            else
+                                            {
+                                                LogDetails logDetails = new LogDetails();
+                                                logDetails.DeviceID = deviceID;
+                                                logDetails.IsWrong = true;
+                                                logDetails.LogMainID = logMain.ID;
+                                                logDetails.OperationDate = operationDate;
+                                                logDetails.OperationType = 3;
+
+                                                LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                                logDetailRepository.Insert(logDetails, new ActionState());
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                logMain = logMainList.OrderByDescending(c => c.InDate).First();
+
+                                if (operationDate.TimeOfDay <= shiftList[0].InTime.TimeOfDay)
+                                {
+                                    logMain.UserID = userID;
+                                    logMain.AttendanceDate = operationDate;
+                                    logMain.OutDate = operationDate;
+                                    logMain.IsClosed = false;
+                                    logMain.MissIN = 0;
+                                    logMain.MissOut = 0;
+                                    logMain.PlusIN = 0;
+                                    logMain.PlusOut = 0;
+                                    logMain.ShiftID = 0;
+                                    actionState = new ActionState();
+                                    logMainRepository.Insert(logMain, actionState);
+                                    if (actionState.Status != ActionStatusEnum.NoError)
+                                    {
+                                        LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                    }
+                                    else
+                                    {
+                                        LogDetails logDetails = new LogDetails();
+                                        logDetails.DeviceID = deviceID;
+                                        logDetails.IsWrong = true;
+                                        logDetails.LogMainID = logMain.ID;
+                                        logDetails.OperationDate = operationDate;
+                                        logDetails.OperationType = 3;
+
+                                        LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                        logDetailRepository.Insert(logDetails, new ActionState());
+                                    }
+                                }
+                                else if (logMain.InDate != null)
+                                {
+
+                                    logMain = ShiftCalculations(shiftList[0], operationDate, operationType);
+                                    logMain.InDate = logMainList.OrderByDescending(c => c.InDate).First().InDate;
+                                    logMain.PlusIN = logMainList.OrderByDescending(c => c.InDate).First().PlusIN;
+                                    logMain.MissIN = logMainList.OrderByDescending(c => c.InDate).First().MissIN;
+                                    logMain.ID = logMainList.OrderByDescending(c => c.InDate).First().ID;
+                                    logMain.UserID = userID;
+                                    logMain.IsClosed = true;
+                                    actionState = new ActionState();
+                                    logMainRepository.Update(logMain, actionState);
+                                    if (actionState.Status != ActionStatusEnum.NoError)
+                                    {
+                                        LogLostUser(userID, deviceID, operationType, operationDate, CommonConstants.Err_CnnotInsertUserLog, OperationSourceEnum.OracleDB);
+                                    }
+                                    else
+                                    {
+                                        LogDetails logDetails = new LogDetails();
+                                        logDetails.DeviceID = deviceID;
+                                        logDetails.IsWrong = false;
+                                        logDetails.LogMainID = logMain.ID;
+                                        logDetails.OperationDate = operationDate;
+                                        logDetails.OperationType = 3;
+
+                                        LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                        logDetailRepository.Insert(logDetails, new ActionState());
+                                    }
+                                }
+                                else
+                                {
+                                    LogDetails logDetails = new LogDetails();
+                                    logDetails.DeviceID = deviceID;
+                                    logDetails.IsWrong = true;
+                                    logDetails.LogMainID = logMain.ID;
+                                    logDetails.OperationDate = operationDate;
+                                    logDetails.OperationType = 3;
+
+                                    LogDetailRepository logDetailRepository = new LogDetailRepository();
+                                    logDetailRepository.Insert(logDetails, new ActionState());
+
+                                }
+                            }
+                        }
                     }
-                   
+
                 }
                 else
                 {
@@ -368,7 +631,7 @@ namespace ATSDomain.Domains.Logs
                                             }
                                         }
                                     }
-                                    
+
                                     if (shift.ID == 0)
                                     {
                                         logMain.AttendanceDate = operationDate;
@@ -406,9 +669,9 @@ namespace ATSDomain.Domains.Logs
                                         logMain = ShiftCalculations(shift, operationDate, operationType);
                                         logMain.AttendanceDate = operationDate;
                                         logMain.InDate = operationDate;
-                                        logMain.IsClosed = false;                                        
+                                        logMain.IsClosed = false;
                                         logMain.MissOut = 0;
-                                        logMain.OutDate = null;                                        
+                                        logMain.OutDate = null;
                                         logMain.PlusOut = 0;
                                         logMain.ShiftID = shift.ID;
                                         logMain.UserID = userID;
@@ -435,6 +698,8 @@ namespace ATSDomain.Domains.Logs
                                 else
                                 {
                                     //add operationType=3 and logMainList.Count == 0
+
+                                  
                                 }
                             }
                             else
@@ -446,7 +711,7 @@ namespace ATSDomain.Domains.Logs
                         {
                             if (operationType == 1)
                             {
-                                
+
                                 var todayIn = from z in todayList
                                               where z.InTime.AddMinutes(-z.MaxAllowWorkTime).TimeOfDay < operationDate.TimeOfDay &&
                                                   z.OutTime.TimeOfDay > operationDate.TimeOfDay
@@ -459,7 +724,7 @@ namespace ATSDomain.Domains.Logs
                                 {
                                     /////////////////////////////////////////////////////////////////////////////////////////////////
                                     shift = shiftDailyList.First();
-                                   
+
                                 }
                                 else if (operationDate.TimeOfDay < shiftList[0].InTime.TimeOfDay && (yesterdayShift.OutTime.TimeOfDay - yesterdayShift.InTime.TimeOfDay).TotalMinutes < 0 && operationDate.TimeOfDay < yesterdayShift.OutTime.TimeOfDay)
                                 {
@@ -673,7 +938,7 @@ namespace ATSDomain.Domains.Logs
                             }
                             else
                             {
-                                //operation type =3 and logMainList.Count == 0
+                                /////////////////////////////////////
                             }
                         }
                     }
@@ -769,6 +1034,8 @@ namespace ATSDomain.Domains.Logs
                 logmain.IsClosed = false;
                 logmain.MissOut = 0;
                 logmain.PlusOut = 0;
+                logmain.PlusIN = 0;
+                logmain.MissIN = 0;
 
                 if (outEarly > 0)
                     logmain.MissOut = outEarly;

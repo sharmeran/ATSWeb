@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="FindByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="entityID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindByIDResult" type="tns:EntityResultOfEmployees" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EntityResultOfEmployees">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnedEntity" type="tns:Employees" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Employees">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Specialist" type="tns:Specialist" />
+              <s:element minOccurs="0" maxOccurs="1" name="Company" type="tns:Company" />
+              <s:element minOccurs="0" maxOccurs="1" name="Qualifications" type="tns:Qualifications" />
+              <s:element minOccurs="0" maxOccurs="1" name="Title" type="tns:Title" />
+              <s:element minOccurs="1" maxOccurs="1" name="EndDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Nationality" type="tns:Nationality" />
+              <s:element minOccurs="1" maxOccurs="1" name="StartDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Category" type="tns:Category" />
+              <s:element minOccurs="0" maxOccurs="1" name="Rank" type="tns:Rank" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Department" type="tns:Department" />
+              <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseClass" abstract="true" />
+      <s:complexType name="Department">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ShortCode" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShortName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Rank">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:decimal" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Category">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:float" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Nationality">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:decimal" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Title">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:decimal" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Qualifications">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:decimal" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Company">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Specialist">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseClass">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:decimal" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="FindAll">
+        <s:complexType />
+      </s:element>
+      <s:element name="FindAllResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindAllResult" type="tns:EntityListResultOfEmployees" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="EntityListResultOfEmployees">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnedEntities" type="tns:ArrayOfEmployees" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfEmployees">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Employees" nillable="true" type="tns:Employees" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="FindByManagerID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="managerID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindByManagerIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindByManagerIDResult" type="tns:EntityListResultOfEmployees" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindByDeptCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="deptCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindByDeptCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindByDeptCodeResult" type="tns:EntityListResultOfEmployees" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="FindByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:FindByID" />
+  </wsdl:message>
+  <wsdl:message name="FindByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:FindByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindAllSoapIn">
+    <wsdl:part name="parameters" element="tns:FindAll" />
+  </wsdl:message>
+  <wsdl:message name="FindAllSoapOut">
+    <wsdl:part name="parameters" element="tns:FindAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindByManagerIDSoapIn">
+    <wsdl:part name="parameters" element="tns:FindByManagerID" />
+  </wsdl:message>
+  <wsdl:message name="FindByManagerIDSoapOut">
+    <wsdl:part name="parameters" element="tns:FindByManagerIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindByDeptCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:FindByDeptCode" />
+  </wsdl:message>
+  <wsdl:message name="FindByDeptCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:FindByDeptCodeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EmployeesWebServiceSoap">
+    <wsdl:operation name="FindByID">
+      <wsdl:input message="tns:FindByIDSoapIn" />
+      <wsdl:output message="tns:FindByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindAll">
+      <wsdl:input message="tns:FindAllSoapIn" />
+      <wsdl:output message="tns:FindAllSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindByManagerID">
+      <wsdl:input message="tns:FindByManagerIDSoapIn" />
+      <wsdl:output message="tns:FindByManagerIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindByDeptCode">
+      <wsdl:input message="tns:FindByDeptCodeSoapIn" />
+      <wsdl:output message="tns:FindByDeptCodeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EmployeesWebServiceSoap" type="tns:EmployeesWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FindByID">
+      <soap:operation soapAction="http://tempuri.org/FindByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindAll">
+      <soap:operation soapAction="http://tempuri.org/FindAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindByManagerID">
+      <soap:operation soapAction="http://tempuri.org/FindByManagerID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindByDeptCode">
+      <soap:operation soapAction="http://tempuri.org/FindByDeptCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="EmployeesWebServiceSoap12" type="tns:EmployeesWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FindByID">
+      <soap12:operation soapAction="http://tempuri.org/FindByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindAll">
+      <soap12:operation soapAction="http://tempuri.org/FindAll" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindByManagerID">
+      <soap12:operation soapAction="http://tempuri.org/FindByManagerID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindByDeptCode">
+      <soap12:operation soapAction="http://tempuri.org/FindByDeptCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EmployeesWebService">
+    <wsdl:port name="EmployeesWebServiceSoap" binding="tns:EmployeesWebServiceSoap">
+      <soap:address location="http://192.186.0.130/ATSWebServices/Services/Employee/EmployeesWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="EmployeesWebServiceSoap12" binding="tns:EmployeesWebServiceSoap12">
+      <soap12:address location="http://192.186.0.130/ATSWebServices/Services/Employee/EmployeesWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

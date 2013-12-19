@@ -184,6 +184,9 @@ namespace ATSDataAccess.SQLImlementation.Employee
             return employeesList;
         }
 
+
+        
+
         public override Employees FindByID(int entityID, ATSCommon.ActionState actionState)
         {
             OracleConnection con = null;
@@ -242,6 +245,8 @@ namespace ATSDataAccess.SQLImlementation.Employee
             return employees;
         }
 
+
+
         private Employees EmployeesHelper(OracleDataReader reader)
         {
             Employees employees = new Employees();
@@ -249,6 +254,8 @@ namespace ATSDataAccess.SQLImlementation.Employee
             {
                 employees.Category = new Category();
                 employees.Category.Name = reader[EmployeesConstants.CategoryDescription].ToString();
+                employees.Category.ID = (float)Convert.ToDecimal(reader[EmployeesConstants.CategoryID]);
+
             }
 
             employees.Department = new Department();
@@ -271,34 +278,37 @@ namespace ATSDataAccess.SQLImlementation.Employee
             if (reader[EmployeesConstants.Name] != DBNull.Value)
                 employees.Name = reader[EmployeesConstants.Name].ToString();
 
-            if (reader[EmployeesConstants.QualificationDescription] != DBNull.Value)
-            {
-                employees.Qualifications = new Qualifications();
-                employees.Qualifications.Name = reader[EmployeesConstants.QualificationDescription].ToString();
-            }
+            //if (reader[EmployeesConstants.QualificationDescription] != DBNull.Value)
+            //{
+            //    employees.Qualifications = new Qualifications();
+            //    employees.Qualifications.Name = reader[EmployeesConstants.QualificationDescription].ToString();
+            //}
 
             if (reader[EmployeesConstants.RankDescription] != DBNull.Value)
             {
                 employees.Rank = new Rank();
                 employees.Rank.Name = reader[EmployeesConstants.RankDescription].ToString();
+                employees.Rank.ID = Convert.ToDecimal(reader[EmployeesConstants.RankID]);
             }
 
-            if (reader[EmployeesConstants.SpecialistDescription] != DBNull.Value)
-            {
-                employees.Specialist = new Specialist();
-                employees.Specialist.Name = reader[EmployeesConstants.SpecialistDescription].ToString();
-            }
+            //if (reader[EmployeesConstants.SpecialistDescription] != DBNull.Value)
+            //{
+            //    employees.Specialist = new Specialist();
+            //    employees.Specialist.Name = reader[EmployeesConstants.SpecialistDescription].ToString();
+            //}
 
             if (reader[EmployeesConstants.NationalityDescription] != DBNull.Value)
             {
                 employees.Nationality = new Nationality();
                 employees.Nationality.Name = reader[EmployeesConstants.NationalityDescription].ToString();
+                employees.Nationality.ID=Convert.ToDecimal(reader[EmployeesConstants.NationalityID]);
             }
 
             if (reader[EmployeesConstants.TitleDescription] != DBNull.Value)
             {
                 employees.Title = new Title();
                 employees.Title.Name = reader[EmployeesConstants.TitleDescription].ToString();
+                employees.Title.ID = Convert.ToDecimal(reader[EmployeesConstants.TitleID]);
             }
 
 

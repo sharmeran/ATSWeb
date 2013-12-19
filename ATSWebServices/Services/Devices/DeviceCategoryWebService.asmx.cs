@@ -1,12 +1,12 @@
-﻿using System;
+﻿using ATSCommon.Entites.Devices;
+using ATSDomain.Domains.Devices;
+using ATSWebServices.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
-using ATSCommon.Entites.Devices;
-using ATSDomain.Domains.Devices;
-using ATSWebServices.Common;
 
 namespace ATSWebServices.Services.Devices
 {
@@ -22,7 +22,7 @@ namespace ATSWebServices.Services.Devices
     {
 
         [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]        
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public EntityResult<DeviceCategory> Add(string name, string description)
         {
             DeviceCategory entity = new DeviceCategory();
@@ -53,7 +53,7 @@ namespace ATSWebServices.Services.Devices
         public EntityResult<DeviceCategory> Delete(int id)
         {
             DeviceCategory entity = new DeviceCategory();
-            entity.ID = id;            
+            entity.ID = id;
             EntityResult<DeviceCategory> entityResult = new EntityResult<DeviceCategory>();
             DeviceCategoryDomain deviceCategoryDomain = new DeviceCategoryDomain(1, ATSCommon.Enums.LanguagesEnum.Arabic);
 
@@ -147,6 +147,8 @@ namespace ATSWebServices.Services.Devices
             }
             return entityListResult;
         }
-        
+
     }
 }
+
+

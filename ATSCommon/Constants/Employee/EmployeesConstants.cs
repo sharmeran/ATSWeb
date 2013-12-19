@@ -22,6 +22,11 @@ namespace ATSCommon.Constants.Employee
         public const string DepartmentShortDescription = "DEPT_SHORT_DESC";
         public const string CurrentManagerID = "CURRENT_MANAGER_ID";
         public const string TitleDescription = "TITLE_EDSC";
+
+        public const string RankID = "RANK_CODE";
+        public const string CategoryID = "CATEGORY_CODE";
+        public const string TitleID = "TITLE_CODE";
+        public const string NationalityID = "NATIONALITY_CODE";
         
 
 

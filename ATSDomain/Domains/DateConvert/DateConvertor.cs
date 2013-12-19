@@ -10,10 +10,10 @@ using Oracle.DataAccess.Client;
 
 namespace ATSDomain.Domains.DateConvert
 {
-    public static class DateConvertor
+    public  class DateConvertor
     {
-        static List<HejriCommonDate> list = new List<HejriCommonDate>();
-        private static void GetCommonData()
+         List<HejriCommonDate> list = new List<HejriCommonDate>();
+        private  void GetCommonData()
         {
             List<HejriCommonDate> hejriCommonDateList = new List<HejriCommonDate>();
             OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
@@ -52,7 +52,7 @@ namespace ATSDomain.Domains.DateConvert
         }
 
 
-        private static HejriCommonDate HejriCommonDateHelper(OracleDataReader reader)
+        private  HejriCommonDate HejriCommonDateHelper(OracleDataReader reader)
         {
             HejriCommonDate hejriCommonDate = new HejriCommonDate();
             hejriCommonDate.GregorianDate = Convert.ToDateTime(reader["GREGORIAN_DATE"]);
@@ -61,7 +61,7 @@ namespace ATSDomain.Domains.DateConvert
             hejriCommonDate.HijriYear = Convert.ToInt32(reader["HEJRA_YYYY"]);
             return hejriCommonDate;
         }
-        public static string FromGerToHijri(string date)
+        public  string FromGerToHijri(string date)
         {
             GetCommonData();
             string[] dateArr = date.Split(' ');
@@ -113,7 +113,7 @@ namespace ATSDomain.Domains.DateConvert
 
         }
 
-        public static string FromHijriToGer(string date)
+        public  string FromHijriToGer(string date)
         {
             GetCommonData();
             string[] dateArrr;
@@ -161,7 +161,7 @@ namespace ATSDomain.Domains.DateConvert
 
         }
 
-        public static Cal PrepareCalender()
+        public  Cal PrepareCalender()
         {
             GetCommonData();
             Cal calender = new Cal();
@@ -248,7 +248,7 @@ namespace ATSDomain.Domains.DateConvert
             return calender;
         }
 
-        static string GetMonthName(int monthID)
+         string GetMonthName(int monthID)
         {
             string monthName = "";
             switch (monthID)
@@ -294,7 +294,7 @@ namespace ATSDomain.Domains.DateConvert
             return monthName;
         }
 
-        static string GetHijriMonthName(int monthID)
+         string GetHijriMonthName(int monthID)
         {
             string monthName = "";
             switch (monthID)
@@ -340,7 +340,7 @@ namespace ATSDomain.Domains.DateConvert
             return monthName;
         }
 
-        static string GenDayName(int dayID)
+         string GenDayName(int dayID)
         {
             string dayName = "";
             switch (dayID)

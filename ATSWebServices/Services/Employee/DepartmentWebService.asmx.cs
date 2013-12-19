@@ -53,6 +53,7 @@ namespace ATSWebServices.Services.Employee
             try
             {
                 entityListResult.ReturnedEntities = departmentDomain.FindAll();
+                entityListResult.Message = string.Empty;
                 if (departmentDomain.ActionState.Status != ATSCommon.Enums.ActionStatusEnum.NoError)
                 {
                     entityListResult.Message = departmentDomain.ActionState.Result;

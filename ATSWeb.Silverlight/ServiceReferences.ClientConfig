@@ -1,0 +1,34 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="EmployeesWebServiceSoap" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+                <binding name="DepartmentWebServiceSoap" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+                <binding name="CategoryWebServiceSoap" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="../Services/Employee/EmployeesWebService.asmx"
+                binding="basicHttpBinding" bindingConfiguration="EmployeesWebServiceSoap"
+                contract="EmployeeServiceReference.EmployeesWebServiceSoap"
+                name="EmployeesWebServiceSoap" />
+            <endpoint address="../Services/Employee/DepartmentWebService.asmx"
+                binding="basicHttpBinding" bindingConfiguration="DepartmentWebServiceSoap"
+                contract="DepartmentServiceReference.DepartmentWebServiceSoap"
+                name="DepartmentWebServiceSoap" />
+            <endpoint address="../Services/Employee/CategoryWebService.asmx"
+                binding="basicHttpBinding" bindingConfiguration="CategoryWebServiceSoap"
+                contract="CategoryServiceReference.CategoryWebServiceSoap"
+                name="CategoryWebServiceSoap" />
+        </client>
+    </system.serviceModel>
+</configuration>

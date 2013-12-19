@@ -21,10 +21,11 @@ namespace ATSWebTest
         {
            
             UserLogAddDomain userLogAddDomain = new UserLogAddDomain();
+
             Shift shift= new Shift();
             LogMain logMain= new LogMain();
-            DateTime dateTime = new DateTime(2013, 4, 22, 23, 00, 00);
-            userLogAddDomain.FindUserShift(990298, 1, 1, dateTime, shift, logMain);
+            DateTime dateTime = new DateTime(2013, 4, 28, 17, 00, 00);
+            userLogAddDomain.FindUserShift(990299, 2, 3, dateTime, shift, logMain);
 
         }
     }

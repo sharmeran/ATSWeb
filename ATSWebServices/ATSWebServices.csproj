@@ -13,13 +13,16 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ATSWebServices</RootNamespace>
     <AssemblyName>ATSWebServices</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <SilverlightApplicationList>
+    </SilverlightApplicationList>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +32,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,27 +42,29 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Telerik.Web.UI, Version=2012.3.1016.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Telerik\RadControls for ASP.NET AJAX Q3 2012\Bin45\Telerik.Web.UI.dll</HintPath>
@@ -65,11 +72,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.8.2.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.1.custom.js" />
     <Content Include="Scripts\jquery-ui-1.9.1.custom.js" />
     <Content Include="Scripts\jquery-ui-1.9.1.custom.min.js" />
     <Content Include="Scripts\jquery.jscrollpane.js" />
     <Content Include="Scripts\jquery.jscrollpane.min.js" />
     <Content Include="Scripts\jquery.mousewheel.js" />
+    <Content Include="Services\Common\DatesService.asmx" />
     <Content Include="Services\Devices\DeviceCategoryWebService.asmx" />
     <Content Include="Services\Devices\DeviceWebService.asmx" />
     <Content Include="Services\Devices\ServerWebService.asmx" />
@@ -81,6 +91,7 @@
     <Content Include="Services\Employee\RankWebService.asmx" />
     <Content Include="Services\Employee\SpecialistWebService.asmx" />
     <Content Include="Services\Employee\TitleWebService.asmx" />
+    <Content Include="Services\Employee\WebService1.asmx" />
     <Content Include="Styles\CustomStyle.css" />
     <Content Include="Styles\demos.css" />
     <Content Include="Styles\images\Add.png" />
@@ -112,17 +123,20 @@
     <Content Include="Styles\jquery-ui-1.10.1.custom.min.css" />
     <Content Include="Styles\jquery.jscrollpane.css" />
     <Content Include="Styles\Style.css" />
-    <Content Include="Views\Devices\DeviceCategoryView.aspx" />
+    <Content Include="Views\Test\Test.asmx" />
+    <Content Include="Views\Test\WebForm1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="WebForm1.aspx" />
-    <Content Include="WebForm2.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\EntityListResult.cs" />
     <Compile Include="Common\EntityResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Common\DatesService.asmx.cs">
+      <DependentUpon>DatesService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Services\Devices\DeviceCategoryWebService.asmx.cs">
       <DependentUpon>DeviceCategoryWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -167,26 +181,20 @@
       <DependentUpon>TitleWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\Devices\DeviceCategoryView.aspx.cs">
-      <DependentUpon>DeviceCategoryView.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
+    <Compile Include="Services\Employee\WebService1.asmx.cs">
+      <DependentUpon>WebService1.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\Devices\DeviceCategoryView.aspx.designer.cs">
-      <DependentUpon>DeviceCategoryView.aspx</DependentUpon>
+    <Compile Include="Views\Test\Test.asmx.cs">
+      <DependentUpon>Test.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WebForm1.aspx.cs">
+    <Compile Include="Views\Test\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
+    <Compile Include="Views\Test\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm2.aspx.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm2.aspx.designer.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +209,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\Attendance\" />
+    <Folder Include="Views\Devices\" />
+    <Folder Include="Views\Employee\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ATSCommon\ATSCommon.csproj">
       <Project>{a64113f3-7c7e-4151-8f0f-a46c62cd4a8d}</Project>
       <Name>ATSCommon</Name>
@@ -209,10 +222,6 @@
       <Project>{39ccea91-9702-4119-a6e9-7454c3cd9d66}</Project>
       <Name>ATSDomain</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Attendance\" />
-    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -229,9 +238,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22188</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.186.0.130/ATSWebServices</IISUrl>
+          <IISUrl>http://localhost/ATSWebServices</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://192.186.0.130/ATSWebServices</IISAppRootUrl>
+          <IISAppRootUrl>http://localhost/ATSWebServices</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

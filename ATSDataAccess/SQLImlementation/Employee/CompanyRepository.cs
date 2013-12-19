@@ -55,7 +55,7 @@ namespace ATSDataAccess.SQLImlementation.Employee
             try
             {
                 con = new OracleConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-                com = new OracleCommand(CompanyRepositoryConstants.FindAll, con);
+                com = new OracleCommand(CompanyRepositoryConstants.Insert, con);
                 con.Open();
                 com.CommandType = CommandType.StoredProcedure;
 
@@ -89,7 +89,7 @@ namespace ATSDataAccess.SQLImlementation.Employee
                 com.Parameters.Add(idParameter);
 
                 com.ExecuteNonQuery();
-                entity.ID= Convert.ToInt32(com.Parameters[CommonConstants.IdentityID].Value);
+                entity.ID = Convert.ToInt32(com.Parameters[4].Value);
                 actionState.SetSuccess();
 
             }

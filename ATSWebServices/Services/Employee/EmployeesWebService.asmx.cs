@@ -56,10 +56,12 @@ namespace ATSWebServices.Services.Employee
             try
             {
                 entityListResult.ReturnedEntities = employeesDomain.FindAll();
+                entityListResult.Message = string.Empty;
                 if (employeesDomain.ActionState.Status != ATSCommon.Enums.ActionStatusEnum.NoError)
                 {
                     entityListResult.Message = employeesDomain.ActionState.Result;
                 }
+               
 
             }
             catch (Exception ex)

@@ -158,9 +158,7 @@ namespace ATSDataAccess.SQLImlementation.UserLogs
         public override UserLog FindByID(int entityID, ActionState actionState)
         {
             throw new NotImplementedException();
-        }
-
-     
+        }     
 
         public List<UserLog> FindByUserID(int entityID, ActionState actionState)
         {
@@ -388,7 +386,6 @@ namespace ATSDataAccess.SQLImlementation.UserLogs
             return result;
         }
 
-
         public List<UserLog> FindRemoteUserLogByDate(DateTime startDate, DateTime endDate, ActionState actionState, string connictionString)
         {
             List<UserLog> userLogEntityList;
@@ -470,8 +467,6 @@ namespace ATSDataAccess.SQLImlementation.UserLogs
             }
             return result;
         }
-
-
 
         public void InsertRemotly(UserLog entity, ActionState actionState, string connectionString)
         {
